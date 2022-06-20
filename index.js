@@ -29,6 +29,8 @@ app.use('/helix/login',require('./login/lJobSeeker'))
 // admin
 app.use('/helix/admin',require('./admin/admin'))
 
+// contactform
+app.use('/helix/contactform',require('./contactForm'))
 
 app.get('/',(req,res)=>{
     res.send('hii')
