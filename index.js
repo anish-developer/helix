@@ -29,6 +29,11 @@ app.use('/helix/login',require('./login/lJobSeeker'))
 // admin
 app.use('/helix/admin',require('./admin/admin'))
 
+
+app.get('/',(req,res)=>{
+    res.send('hii')
+})
+
 const port =process.env.PORT || '5000'
 app.listen(port,()=>{
     console.log(`server running on ${port}`)
