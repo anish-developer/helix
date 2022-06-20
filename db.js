@@ -7,7 +7,7 @@ require ('dotenv/config')
 // const dbName = 'helix'
 // mongoose.connect(`mongodb+srv://${username}:${password}@${cluster}.ojhq1.mongodb.net/${dbName}?retryWrites=true&w=majority`)
 
-mongoose.connect(process.env.MONGO_URL,
+mongoose.connect('mongodb+srv://anish:1234@Cluster0.ojhq1.mongodb.net/helix?retryWrites=true&w=majority',
     {}, err => {
         console.log('connected')
         // console.log(err)
