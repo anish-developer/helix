@@ -117,4 +117,6 @@ router.patch('/reject/jobseeker/:_id?', async (req,res)=>{
         res.status(400).json('invalid id')
     }
 })
+
+
 module.exports = router

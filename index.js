@@ -32,6 +32,9 @@ app.use('/helix/admin',require('./admin/admin'))
 // contactform
 app.use('/helix/contactform',require('./contactForm'))
 
+// job add
+app.use('/helix/job',require('./jobadd'))
+
 app.get('/',(req,res)=>{
     res.send('hii')
 })
