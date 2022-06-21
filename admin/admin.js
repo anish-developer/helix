@@ -54,7 +54,7 @@ router.get('/jobseeker',async(req,res)=>{
 })
 
 // approve employers
-router.patch('/approve/employers/:_id', async (req,res)=>{
+router.patch('/approve/employers/:_id?', async (req,res)=>{
     try {
         const id = req.params._id
         let data = await Employer.updateOne(
@@ -64,7 +64,7 @@ router.patch('/approve/employers/:_id', async (req,res)=>{
                 $set: {approve:true}
             }
         )
-        res.status(201).json(true)
+        res.status(201).json('approve')
     } catch (error) {
         res.status(400).json('invalid id')
     }
@@ -103,7 +103,7 @@ router.patch('/reject/employers/:_id?',async (req,res)=>{
 })
 
 // reject JobSeeker
-router.patch('/reject/jobseeker/:_id', async (req,res)=>{
+router.patch('/reject/jobseeker/:_id?', async (req,res)=>{
     try {
         const id  = req.params._id
         const data = await JobSeeker.updateOne(
