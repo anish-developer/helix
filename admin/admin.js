@@ -71,7 +71,7 @@ router.patch('/approve/employers/:_id', async (req,res)=>{
 })
 
 // approve JobSeeker
-router.patch('/approve/jobseeker/:_id',async (req,res)=>{
+router.patch('/approve/jobseeker/:_id?',async (req,res)=>{
     try {
         const id = req.params._id
         const data = await JobSeeker.updateOne(
@@ -81,6 +81,38 @@ router.patch('/approve/jobseeker/:_id',async (req,res)=>{
             }
         )
         res.status(201).json('approved')
+    } catch (error) {
+        res.status(400).json('invalid id')
+    }
+})
+
+// reject employers
+router.patch('/reject/employers/:_id?',async (req,res)=>{
+    try {
+        const id = req.params.id
+        let data = await Employer.updateOne(
+            {_id:id},
+            {
+             $set:{approve:false}
+            }
+        )
+        res.status(201).json('reject')
+    } catch (error) {
+        res.status(400).json('invalid id')
+    }
+})
+
+// reject JobSeeker
+router.patch('/reject/jobseeker/:_id', async (req,res)=>{
+    try {
+        const id  = req.params._id
+        const data = await JobSeeker.updateOne(
+            {_id:id},
+            {
+                $set: {approve:false}
+            }
+        )
+        res.status(201).json('reject')
     } catch (error) {
         res.status(400).json('invalid id')
     }
