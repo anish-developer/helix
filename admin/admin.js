@@ -80,6 +80,7 @@ router.patch('/approve/jobseeker/:_id',async (req,res)=>{
                 $set: {approve:true}
             }
         )
+        res.status(201).json('approved')
     } catch (error) {
         res.status(400).json('invalid id')
     }
