@@ -26,4 +26,14 @@ router.post('/form',upload.none(),async (req,res)=>{
 
 })
 
+router.get('/form',upload.none(),async (req,res)=>{
+    // console.log('hii')
+    try {
+        const data = await ContactForm.find()
+        res.json(data)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+})
+
 module.exports = router
