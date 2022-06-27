@@ -6,7 +6,7 @@ const AddJob = require('./models/AddJob')
 const upload = multer()
 
 router.post('/addjob',upload.none(),async (req,res)=>{
-
+    const companyname = req.body.companyname
     const empEmail = req.body.email
     const jobTitle = req.body.jobtitle
     const jobDesc =req.body.jobdesc
