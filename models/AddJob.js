@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
 const AddJobScheme = new mongoose.Schema({
+    companyname:{
+        type:String,
+        required:true
+    },
     empemail:{
         type:String,
         required:true

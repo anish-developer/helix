@@ -23,8 +23,7 @@ app.use('/helix/register',require('./sign/employer'))
 app.use('/helix/register',require('./sign/jobseeker'))
 
 // login
-app.use('/helix/login',require('./login/lemployer'))
-app.use('/helix/login',require('./login/lJobSeeker'))
+app.use('/helix/login',require('./login/login'))
 
 // admin
 app.use('/helix/admin',require('./admin/admin'))
@@ -32,8 +31,8 @@ app.use('/helix/admin',require('./admin/admin'))
 // contactform
 app.use('/helix/contactform',require('./contactForm'))
 
-// job add
-app.use('/helix/job',require('./jobadd'))
+// job add or see
+app.use('/helix/job',require('./job'))
 
 app.get('/',(req,res)=>{
     res.send('hii')

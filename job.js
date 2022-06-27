@@ -20,6 +20,7 @@ router.post('/addjob',upload.none(),async (req,res)=>{
     try {
         if(jobTitle && jobDesc && numOfOpen &&addSkill && salaryDet && exp && location && jobTime && jobAddress && empEmail){
            const newAddJob = new AddJob({
+            companyname:companyname,
             empemail: empEmail,
             jobtitle:jobTitle,
             jobdesc:jobDesc,
@@ -39,6 +40,15 @@ router.post('/addjob',upload.none(),async (req,res)=>{
             res.json('require all field')
         }
         
+    } catch (error) {
+        res.status(400).json(error)
+    }
+})
+
+router.get('/showjobs',upload.none(),async (req,res)=>{
+    try {
+        const jobs = await AddJob.find()
+        res.status(200).json(jobs)
     } catch (error) {
         res.status(400).json(error)
     }
