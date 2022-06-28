@@ -13,8 +13,8 @@ router.post('/login',upload.none(), async (req,res)=>{
     // console.log(req.body.a_email)
     // console.log(req.body.a_password)
     // res.send('hii')
-    const email = req.body.a_email
-    const password = req.body.a_password
+    const email = req.body.email
+    const password = req.body.password
     try {
         const data = await Admin.findOne({a_email: email})
         // console.log(data)
