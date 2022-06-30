@@ -88,7 +88,7 @@ router.patch('/approve/jobseeker/:_id?',async (req,res)=>{
 })
 
 // reject employers
-router.put('/reject/employers/:_id?',async (req,res)=>{
+router.patch('/reject/employers/:_id?',async (req,res)=>{
     try {
         const id = req.params.id
         let data = await Employer.updateOne(
@@ -104,7 +104,7 @@ router.put('/reject/employers/:_id?',async (req,res)=>{
 })
 
 // reject JobSeeker
-router.put('/reject/jobseeker/:_id?', async (req,res)=>{
+router.patch('/reject/jobseeker/:_id?', async (req,res)=>{
     try {
         const id  = req.params._id
         const data = await JobSeeker.updateOne(
@@ -120,7 +120,7 @@ router.put('/reject/jobseeker/:_id?', async (req,res)=>{
 })
 
 // edit employers
-router.put('/edit/employer/:_id?',upload.none(),async (req,res)=>{
+router.patch('/edit/employer/:_id?',upload.none(),async (req,res)=>{
     try {
         const id = req.params._id
         const name= req.body.c_name
@@ -151,7 +151,7 @@ router.put('/edit/employer/:_id?',upload.none(),async (req,res)=>{
 
 
 // edit JobSeeker
-router.put('/edit/jobseeker/:_id?',upload.none(),async (req,res)=>{
+router.patch('/edit/jobseeker/:_id?',upload.none(),async (req,res)=>{
     try {
         const id = req.params._id
         console.log(id)
