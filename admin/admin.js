@@ -31,9 +31,36 @@ router.post('/login',upload.none(), async (req,res)=>{
     }
 })
 
+// specific employer data
+router.get('/specemployer/:_id?',upload.none(),async (req,res)=>{
+    try {
+        // res.send('hii')
+        const id = req.params._id
+        const data = await Employer.findOne({
+            _id:id
+        })
+        // res.json(d0ata[0].c_name)
+        res.status(201).json(data)
+    } catch (error) {
+        res.status(400).json('invalid id')
+    }
+})
+
+// specific JobSeeker data
+router.get('/specjobseeker/:_id?',upload.none(),async (req,res)=>{
+    try {
+        const id = req.params._id
+        const data = await JobSeeker.findOne({
+            _id:id
+        })
+        res.status(201).json(data)
+    } catch (error) {
+        res.status(400).json('invalid id')
+    }
+})
 
 // all employers
-router.get('/employer',async (req,res)=>{
+router.get('/employer',upload.none(),async (req,res)=>{
     try {
         // res.send('hii')
         const data = await Employer.find()
