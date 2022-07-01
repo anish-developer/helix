@@ -21,7 +21,7 @@ const JobSeekerSchema = new mongoose.Schema({
         required:true
     },
     approve:{
-        type:Boolean
+        type:String
     }
 })
 

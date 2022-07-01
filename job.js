@@ -5,6 +5,7 @@ const AddJob = require('./models/AddJob')
 
 const upload = multer()
 
+// add job
 router.post('/addjob',upload.none(),async (req,res)=>{
     const companyname = req.body.companyname
     const empEmail = req.body.email
@@ -45,6 +46,8 @@ router.post('/addjob',upload.none(),async (req,res)=>{
     }
 })
 
+
+// get job
 router.get('/showjobs',upload.none(),async (req,res)=>{
     try {
         const jobs = await AddJob.find()
@@ -53,5 +56,8 @@ router.get('/showjobs',upload.none(),async (req,res)=>{
         res.status(400).json(error)
     }
 })
+
+
+// edit job
 
 module.exports = router

@@ -89,10 +89,11 @@ router.patch('/approve/employers/:_id?', async (req,res)=>{
             // {}condition
     //{ $set updated data}
             {_id:id},{
-                $set: {approve:true}
+                $set: {approve:"approve"}
             }
         )
-        res.status(201).json('approve')
+        console.log(data)
+        res.status(201).json('approved')
     } catch (error) {
         res.status(400).json('invalid id')
     }
@@ -105,7 +106,7 @@ router.patch('/approve/jobseeker/:_id?',async (req,res)=>{
         const data = await JobSeeker.updateOne(
             {_id:id},
             {
-                $set: {approve:true}
+                $set: {approve:"approve"}
             }
         )
         res.status(201).json('approved')
@@ -117,14 +118,16 @@ router.patch('/approve/jobseeker/:_id?',async (req,res)=>{
 // reject employers
 router.patch('/reject/employers/:_id?',async (req,res)=>{
     try {
-        const id = req.params.id
+        const id = req.params._id
+        // console.log(id)
         let data = await Employer.updateOne(
             {_id:id},
             {
-             $set:{approve:false}
+             $set:{approve:'reject'}
             }
         )
-        res.status(201).json('reject')
+        console.log(data)
+        res.status(201).json('rejected')
     } catch (error) {
         res.status(400).json('invalid id')
     }
@@ -137,10 +140,11 @@ router.patch('/reject/jobseeker/:_id?', async (req,res)=>{
         const data = await JobSeeker.updateOne(
             {_id:id},
             {
-                $set: {approve:false}
+                $set: {approve:'reject'}
             }
         )
-        res.status(201).json('reject')
+        console.log(data)
+        res.status(201).json('rejected')
     } catch (error) {
         res.status(400).json('invalid id')
     }
@@ -186,7 +190,7 @@ router.patch('/edit/employer/:_id?',upload.none(),async (req,res)=>{
 router.patch('/edit/jobseeker/:_id?',upload.none(),async (req,res)=>{
     try {
         const id = req.params._id
-        console.log(id)
+        // console.log(id)
         const name= req.body.j_name
         const number= req.body.j_number
         const email= req.body.j_email
