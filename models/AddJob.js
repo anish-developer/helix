@@ -43,6 +43,9 @@ const AddJobScheme = new mongoose.Schema({
     jobaddress:{
         type:String,
         required:true
+    },
+    approve:{
+        type:String
     }
 })
 const AddJob = mongoose.model('addjob',AddJobScheme)

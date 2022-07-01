@@ -57,7 +57,63 @@ router.get('/showjobs',upload.none(),async (req,res)=>{
     }
 })
 
+// specific job
+router.patch('/spec/jobs/:_id?',upload.none(), async(req,res)=>{
+    try {
+        const id = req.params._id
+        if(id){
+            const jobs = await AddJob.findOne({
+                _id:id
+            })
+            res.status(201).json(jobs)
+        }else{
+             res.status(400).json('invalid id')
+        }
+    } catch (error) {
+        res.status(400).json(error)
+    }
+})
 
-// edit job
+// approve job
+router.patch('/approve/job/:_id?',upload.none(),async (req,res)=>{
+    try {
+        const id = req.params._id
+        if(id){
+            const jobs = await AddJob.updateOne(
+                {_id:id},
+                {
+                    $set:{approve:"approve"}
+                }
+            )
+            console.log(jobs)
+            res.status(201).json('approved')
+        }else{
+            res.status(400).json('invalid id')
+        }
+    } catch (error) {
+        res.status(400).json(error)
+    }
+})
+
+// reject job
+router.patch('/reject/job/:_id?',upload.none(),async (req,res)=>{
+    try {
+        const id = req.params._id
+        if(id){
+            const jobs = await AddJob.updateOne(
+                {_id:id},
+                {
+                    $set:{approve:'reject'}
+                }
+            )
+            console.log(jobs)
+            res.status(201).json('reject')
+        }else{
+            res.status(400).json('invalid id')
+        }
+    } catch (error) {
+        res.status(400).json(error)
+    }
+})
 
 module.exports = router

@@ -17,7 +17,7 @@ router.post('/ljobseeker',upload.none(),async (req,res)=>{
             // check if incoming password is the same the db password
         const validPassword = await bcrypt.compare(password,data.j_password)
             // console.log(data)
-            if(validPassword === true){
+            if(validPassword === 'approve'){
                 // check admin is give approved or not
                 if(data.approve === true){
                     res.json(true)
