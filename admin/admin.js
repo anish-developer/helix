@@ -157,20 +157,25 @@ router.patch('/edit/employer/:_id?',upload.none(),async (req,res)=>{
         const email= req.body.c_email
         const description= req.body.c_description
         // console.log(email,name,address,person,number,description)
-        const data = await Employer.updateOne(
-            {_id:id},
-            {
-                $set:{
-                    c_name:name,
-                    c_address:address,
-                    c_person:person,
-                    c_number:number,
-                    c_email:email,
-                    c_description:description
+        if(id){
+            const data = await Employer.updateOne(
+                {_id:id},
+                {
+                    $set:{
+                        c_name:name,
+                        c_address:address,
+                        c_person:person,
+                        c_number:number,
+                        c_email:email,
+                        c_description:description
+                    }
                 }
-            }
-        )
-        res.status(201).json(data.acknowledged)
+            )
+            res.status(201).json(data.acknowledged)
+        }
+        else{
+            res.status(400).json('plz provide id')
+        }
     } catch (error) {
         res.status(400).json('invalid id')
     }
