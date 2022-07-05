@@ -5,8 +5,7 @@ const EmployerSchema = new mongoose.Schema({
         required:true,
     },
     c_logo :{
-        data: String,
-        contentType: String
+        Type: String
     },
     c_address:{
         type:String,

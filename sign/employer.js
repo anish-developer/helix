@@ -10,22 +10,21 @@ const bcrypt  = require('bcrypt')
 const Storage = multer.diskStorage({
     destination:'uploads',
     filename:(req,file,cb)=>{
-        cb(null,file.originalname)
+        cb(null,Date.now() + file.originalname)
     }
 })
 
 const upload = multer({
     storage:Storage
-}).single('c_logo')
-
-router.post('/employer',upload,async (req,res)=>{
+})
+router.post('/employer',upload.single('c_logo'),async (req,res)=>{
 
 try {
     // const email = req.body.c_email
     const password = req.body.c_password
     const repassword = req.body.c_repassword
      
-    console.log(password)
+    console.log(password) 
     console.log(repassword)
     let data = await Employer.findOne({c_email:req.body.c_email})
     // console.log(dat  a)
@@ -33,19 +32,21 @@ try {
     // bcrypt the user password
     const saltRound = 10
     const salt = await bcrypt.genSalt(saltRound);
-
+    
     const bcryptPassword = await bcrypt.hash(password,salt)
-
-            if(data === null){
-                    // res.json('already')
-                    if(password === repassword){
+    
+    if(data === null){
+        // res.json('already')
+        if(password === repassword){
+                        console.log(req.file)
                                 // console.log(req.body.c_email)
                                      
                                         const newEmployer = new Employer({
                                         c_name: req.body.c_name,
                                         c_logo:{
                                             data:req.file.filename,
-                                            contentType: 'image/png/jpg'
+                                            contentType: 'image/png'
+                                        
                                         },
                                         c_address:req.body.c_address,
                                         c_person:req.body.c_person,

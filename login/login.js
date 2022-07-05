@@ -23,7 +23,7 @@ router.post('/checklogin',upload.none(),async(req,res)=>{
             if(validPassword === true){
                 // console.log('hii')
                 // check admin is give approved or not
-                if(job.approve === true){
+                if(job.approve === 'approve'){
                     res.json(true)
                 }
                 else{
@@ -39,7 +39,7 @@ router.post('/checklogin',upload.none(),async(req,res)=>{
             if(validPassword === true){
                 // console.log('hii')
                 // check admin is give approved or not
-                if(emp.approve === true){
+                if(emp.approve === 'approve'){
                     res.json(true)
                 }
                 else{
