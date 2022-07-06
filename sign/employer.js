@@ -43,11 +43,11 @@ try {
                                      
                                         const newEmployer = new Employer({
                                         c_name: req.body.c_name,
-                                        c_logo:{
-                                            data:req.file.filename,
-                                            contentType: 'image/png'
+                                        // c_logo:{
+                                        //     data:req.file.filename,
+                                        //     contentType: 'image/png'
                                         
-                                        },
+                                        // },
                                         c_address:req.body.c_address,
                                         c_person:req.body.c_person,
                                         c_number:req.body.c_number,

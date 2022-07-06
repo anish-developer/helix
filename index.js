@@ -26,6 +26,10 @@ app.use('/helix/register',require('./sign/jobseeker'))
 // login
 app.use('/helix/login',require('./login/login'))
 
+// login
+app.use('/helix/login',require('./login/lemployer'))
+app.use('/helix/login',require('./login/lJobSeeker'))
+
 // admin
 app.use('/helix/admin',require('./admin/admin'))
 
