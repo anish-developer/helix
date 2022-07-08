@@ -25,10 +25,11 @@ router.post('/lemployer',upload.none(),async(req,res)=>{
 
             // check admin approved or not
             console.log(data.approve)
-            if(data.approve === "approve"){
+             if(data.approve === "approve"){
                 res.status(201).json(true)
             }
-            else{
+     
+            else if(data.approve === 'reject'){
                 res.status(201).json('admin is not approved')
             }
            }
