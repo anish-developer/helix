@@ -46,6 +46,9 @@ const AddJobScheme = new mongoose.Schema({
     },
     approve:{
         type:String
+    },
+    date:{
+        type:String
     }
 })
 const AddJob = mongoose.model('addjob',AddJobScheme)

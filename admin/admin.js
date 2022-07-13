@@ -4,6 +4,7 @@ const Admin = require('../models/Admin')
 const multer = require('multer')
 const Employer = require('../models/Employer')
 const JobSeeker = require('../models/JobSeeker')
+const Location = require('../models/Location')
 
 // middleware
 const upload = multer()
@@ -211,6 +212,29 @@ router.patch('/edit/jobseeker/:_id?',upload.none(),async (req,res)=>{
             res.status(201).json(data.acknowledged)
     } catch (error) {
         res.status(400).json("invalid id")
+    }
+})
+
+
+//add location or country 
+router.post('/location/add',upload.none(),async (req,res)=>{
+    try {
+        const location = req.body.location
+        // console.log(location)
+        // if
+        if(location){
+            const data = new Location({
+                location:location
+            })
+            const addLocation = await data.save()
+            // console.log(addLocation)
+            res.status(201).json('location save successfully')
+        }
+        else{
+            res.status(400).json('plz enter location')
+        }
+    } catch (error) {
+        res.status(400).json('something wrong')
     }
 })
 

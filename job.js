@@ -18,6 +18,11 @@ router.post('/addjob',upload.none(),async (req,res)=>{
     const location = req.body.location
     const jobTime = req.body.jobtime
     const jobAddress = req.body.jobaddress
+    const date = new Date().toString()
+    const updateDate = date.slice(8,16)
+    // console.log(updateDate)
+    // const sliceTrim = updateDate.slice(0,10)
+    // console.log(sliceTrim)
     try {
         
            const newAddJob = new AddJob({
@@ -31,7 +36,8 @@ router.post('/addjob',upload.none(),async (req,res)=>{
             exp:exp,
             location:location,
             jobtime:jobTime,
-            jobaddress:jobAddress
+            jobaddress:jobAddress,
+            date:updateDate
            })
         //    save in db
            const addNewJob = newAddJob.save()
@@ -57,6 +63,9 @@ router.patch('/editjob/:_id',upload.none(),async (req,res)=>{
     const location = req.body.location
     const jobTime = req.body.jobtime
     const jobAddress = req.body.jobaddress
+    const date = new Date().toString()
+    const updateDate = date.getTime()
+    // console.log(updateDate.slice(0,10))
     try {
         if(id){
            const data = await AddJob.updateOne(
@@ -72,7 +81,8 @@ router.patch('/editjob/:_id',upload.none(),async (req,res)=>{
             exp:exp,
             location:location,
             jobtime:jobTime,
-            jobaddress:jobAddress
+            jobaddress:jobAddress,
+            date:updateDate
             }
            })
            res.status(201).json('job is updated')
@@ -168,6 +178,19 @@ router.patch('/reject/job/:_id?',upload.none(),async (req,res)=>{
         }else{
             res.status(400).json('invalid id')
         }
+    } catch (error) {
+        res.status(400).json(error)
+    }
+})
+
+// show approved job
+
+router.get('/show/approve',upload.none(),async(req,res)=>{
+    try {
+        const jobs = await AddJob.find({
+            approve:'approve'
+        })
+        res.status(201).json(jobs)
     } catch (error) {
         res.status(400).json(error)
     }
