@@ -2,9 +2,20 @@ const express = require('express')
 const router = express.Router()
 const multer  = require('multer')
 const AddJob = require('./models/AddJob')
+const ApplyJob = require('./models/JobApply')
 
-const upload = multer()
+// const upload = multer()
+const Storage = multer.diskStorage({
+    destination:'uploads',
+    filename:(req,file,cb)=>{
+        cb(null,Date.now() + file.originalname)
+    }
+})
 
+
+const upload = multer({
+    storage:Storage
+})
 // add job
 router.post('/addjob',upload.none(),async (req,res)=>{
     const companyname = req.body.companyname
@@ -64,7 +75,7 @@ router.patch('/editjob/:_id',upload.none(),async (req,res)=>{
     const jobTime = req.body.jobtime
     const jobAddress = req.body.jobaddress
     const date = new Date().toString()
-    const updateDate = date.getTime()
+    const updateDate = date.slice(8,16)
     // console.log(updateDate.slice(0,10))
     try {
         if(id){
@@ -195,5 +206,29 @@ router.get('/show/approve',upload.none(),async(req,res)=>{
         res.status(400).json(error)
     }
 })
+
+
+
+// apply for job
+router.post('/applyjob',upload.single('resume'),async (req,res)=>{
+    // const name = req.body.name
+    // const email = req.body.email
+    // const message = req.body.message
+    // const resume = req.file
+    try {
+        const newApplyJob = await new ApplyJob({
+            name : req.body.name,
+            email : req.body.email,
+            message : req.body.message,
+            resume : req.file.filename
+        })
+        const data = await newApplyJob.save()
+        console.log(data)
+        res.status(201).json('job apply successfully')
+    } catch (error) {
+        res.status(401).json('something wrong')
+    }
+})
+
 
 module.exports = router

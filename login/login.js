@@ -33,7 +33,7 @@ router.post('/checklogin',upload.none(),async(req,res)=>{
                     res.json('wait for admin approval')
                 }
             }else{
-                res.json(false)
+                res.json('you enter email is not registered')
             }
         }
         else if(emp){
@@ -45,11 +45,11 @@ router.post('/checklogin',upload.none(),async(req,res)=>{
                 if(emp.approve === 'approve'){
                     res.json(true)
                 }
-                else{
+                else if(job.approve === 'reject'){
                     res.json('admin in not approved')
                 }
             }else{
-                res.json(false)
+                res.json('wait for admin approval')
             }
         }
         else{
