@@ -13,21 +13,27 @@ router.post('/ljobseeker',upload.none(),async (req,res)=>{
     try {
         const data = await JobSeeker.findOne({j_email:email})
         // res.json(data)
+        console.log(data)
         if(data){
             // check if incoming password is the same the db password
         const validPassword = await bcrypt.compare(password,data.j_password)
-            // console.log(data)
-            if(validPassword === 'approve'){
+            // console.log(validPassword)
+            if(validPassword === true){
                 // check admin is give approved or not
-                if(data.approve === true){
-                    res.json(true)
+                if(data.approve === 'approve'){
+                    res.status(201).json(true)
                 }
-                else{
+                else if(data.approve === 'approve'){
                     res.json('admin in not approved')
                 }
+                else{
+                    res.json('wait for admin approval')
+                }
+            }else{
+                res.json('password is wrong')
             }
         }else{
-            res.json(false)
+            res.json('you enter email is not registered')
         }
     } catch (error) {
         res.status(400).json(error)

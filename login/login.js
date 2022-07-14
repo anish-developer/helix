@@ -26,8 +26,11 @@ router.post('/checklogin',upload.none(),async(req,res)=>{
                 if(job.approve === 'approve'){
                     res.json(true)
                 }
-                else{
+                else if(job.approve === 'reject'){
                     res.json('admin in not approved')
+                }
+                else{
+                    res.json('wait for admin approval')
                 }
             }else{
                 res.json(false)

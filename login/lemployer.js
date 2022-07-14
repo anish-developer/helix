@@ -14,6 +14,7 @@ router.post('/lemployer',upload.none(),async(req,res)=>{
         const password =req.body.password
         console.log(email,password)
         let data = await Employer.findOne({c_email:email})
+        console.log(data)
         if(data){
 
             // check if incoming password is the same the db password
@@ -37,7 +38,7 @@ router.post('/lemployer',upload.none(),async(req,res)=>{
             res.json('password is wrong')
            }
         }else{
-            res.json(false)
+            res.json('you enter email is not registered')
         }
     } catch (error) {
         res.status(400).json(error)
