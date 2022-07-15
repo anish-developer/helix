@@ -33,6 +33,9 @@ router.post('/lemployer',upload.none(),async(req,res)=>{
             else if(data.approve === 'reject'){
                 res.status(201).json('admin is not approved')
             }
+            else if(!data.approve){
+                res.status(201).json('wait for admin approval')
+            }
            }
            else{
             res.json('password is wrong')

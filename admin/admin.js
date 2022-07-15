@@ -5,6 +5,7 @@ const multer = require('multer')
 const Employer = require('../models/Employer')
 const JobSeeker = require('../models/JobSeeker')
 const Location = require('../models/Location')
+const AddType = require('../models/AddType')
 
 // middleware
 const upload = multer()
@@ -215,6 +216,16 @@ router.patch('/edit/jobseeker/:_id?',upload.none(),async (req,res)=>{
     }
 })
 
+// all location
+router.get('/show/location',upload.none(),async (req,res)=>{
+    // res.send('joo')
+    try {
+        const location = await Location.find()
+        res.status(201).json(location)
+    } catch (error) {
+        res.status(400).json('something wrong')
+    }
+})
 
 //add location or country 
 router.post('/location/add',upload.none(),async (req,res)=>{
@@ -234,9 +245,38 @@ router.post('/location/add',upload.none(),async (req,res)=>{
             res.status(400).json('plz enter location')
         }
     } catch (error) {
+        res.status(400).json('already added')
+    }
+})
+
+// add company type
+router.post('/companytype/add',upload.none(), async(req,res)=>{
+    const type = req.body.c_type
+    console.log(type)
+    try {
+        if(type){
+            const data = new AddType({
+                c_type:type
+            })
+            const addCompanyType = await data.save()
+            // console.log(add)
+            res.status(201).json('company type add successfully')
+        }else{
+            res.status(400).json('plz enter company type')
+        }
+    } catch (error) {
         res.status(400).json('something wrong')
     }
 })
 
+// show company type
+router.get('/companytype/show',upload.none(),async (req,res)=>{
+    try {
+        const data = await AddType.find()
+        res.status(201).json(data)
+    } catch (error) {
+        res.status(400).json('something wrong')
+    }
+})
 
 module.exports = router

@@ -9,7 +9,8 @@ const EmployerSchema = new mongoose.Schema({
     },
     c_address:{
         type:String,
-        required:true},
+        required:true
+    },
     c_person:{
         type:String,
         required:true},

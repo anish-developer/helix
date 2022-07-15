@@ -24,6 +24,10 @@ const AddJobScheme = new mongoose.Schema({
         type:String,
         required:true
     },
+    location:{
+        type:String,
+        required:true
+    },
     salarydet:{
         type:String,
         required:true

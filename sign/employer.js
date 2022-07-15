@@ -52,6 +52,7 @@ try {
                                         c_person:req.body.c_person,
                                         c_number:req.body.c_number,
                                         c_email:req.body.c_email,
+                                        // c_type:req.body.c_type,
                                         c_password:bcryptPassword,
                                         c_description:req.body.c_description,
                                         
