@@ -230,5 +230,16 @@ router.post('/applyjob',upload.single('resume'),async (req,res)=>{
     }
 })
 
+// job search by location and company type
+router.patch('/search/job',upload.none(),async (req,res)=>{
+    try {
+        const location = req.body.location
+        const type = req.body.c_type
+        // if(location)
+    } catch (error) {
+        res.status(401).json('something wrong')
+    }
+})
+
 
 module.exports = router
