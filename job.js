@@ -215,19 +215,25 @@ router.post('/applyjob',upload.single('resume'),async (req,res)=>{
     // const email = req.body.email
     // const message = req.body.message
     // const resume = req.file
-    try {
-        const newApplyJob = await new ApplyJob({
-            name : req.body.name,
-            email : req.body.email,
-            message : req.body.message,
-            resume : req.file.filename
-        })
-        const data = await newApplyJob.save()
-        console.log(data)
-        res.status(201).json('job apply successfully')
-    } catch (error) {
-        res.status(401).json('something wrong')
-    }
+    // try {
+        if(req.body.name){
+            const newApplyJob = await new ApplyJob({
+                comemail:req.body.comemail,
+                name : req.body.name,
+                email : req.body.email,
+                message : req.body.message,
+                resume : req.file.filename
+            })
+            const data = await newApplyJob.save()
+            console.log(data)
+            res.status(201).json('job apply successfully')
+        }
+        else{
+            res.status(401).json('something wrong')
+        }
+    // } catch (error) {
+    //     res.status(401).json('something wrong')
+    // }
 })
 
 // job search by location and company type
