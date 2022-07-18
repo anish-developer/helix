@@ -6,7 +6,7 @@ const ApplyJob = require('./models/JobApply')
 
 // const upload = multer()
 const Storage = multer.diskStorage({
-    destination:'uploads',
+    destination:'./uploads/',
     filename:(req,file,cb)=>{
         cb(null,Date.now() + file.originalname)
     }
@@ -215,10 +215,10 @@ router.post('/applyjob',upload.single('resume'),async (req,res)=>{
     // const email = req.body.email
     // const message = req.body.message
     // const resume = req.file
-    // try {
+    try {
         if(req.body.name){
             const newApplyJob = await new ApplyJob({
-                comemail:req.body.comemail,
+                jobid:req.body._id,
                 name : req.body.name,
                 email : req.body.email,
                 message : req.body.message,
@@ -231,10 +231,82 @@ router.post('/applyjob',upload.single('resume'),async (req,res)=>{
         else{
             res.status(401).json('something wrong')
         }
-    // } catch (error) {
-    //     res.status(401).json('something wrong')
-    // }
+    } catch (error) {
+        res.status(401).json('something wrong')
+    }
 })
+
+// show job Appliers
+router.get('/show/appliers',upload.none(),async (req,res)=>{
+    try {
+        const data = await ApplyJob.find()
+        // console.log(data)
+        res.status(201).json(data)
+    } catch (error) {
+        res.status(401).json('something wrong')
+    }
+})
+
+// find by id appliers
+router.get('/find/appliers/:_id',upload.none(),async(req,res)=>{
+    try {
+        const id= req.params._id
+        if(id){
+            const data = await ApplyJob.findOne({
+                _id:id
+            })
+            res.status(201).json(data)
+           
+        }else{
+            res.status(401).json('invalid id')
+        }
+    } catch (error) {
+        res.status(401).json('something wrong')
+    }
+})
+
+// approve job Appliers
+router.patch('/approve/appliers/:_id',upload.none(),async (req,res)=>{
+    try {
+        const id = req.params._id
+        if(id){
+            const jobsApprove = await ApplyJob.updateOne(
+                {_id:id},
+                {
+                    $set:{status:'approve'}
+                }
+            )
+            console.log(jobsApprove)
+            res.status(201).json('approved')
+        }else{
+            res.status(401).json('invalid id')
+        }
+    } catch (error) {
+        res.status(401).json('something wrong')
+    }
+})
+
+// reject job Appliers
+router.patch('/reject/appliers/:_id',upload.none(),async (req,res)=>{
+    try {
+        const id = req.params._id
+        if(id){
+            const jobsReject = await ApplyJob.updateOne(
+                {_id:id},
+                {
+                    $set:{status:'reject'}
+                }
+            )
+            console.log(jobsReject)
+            res.status(201).json('rejected')
+        }else{
+            res.status(401).json('invalid id')
+        }
+    } catch (error) {
+        res.status(401).json('something wrong')
+    }
+})
+
 
 // job search by location and company type
 router.patch('/search/job',upload.none(),async (req,res)=>{

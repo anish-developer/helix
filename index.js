@@ -17,7 +17,7 @@ app.use(express.urlencoded({extended:false}))
 // for parsing multipart/form-data
 // app.use(upload.array()); 
 app.use(cors())
-app.use(express.static("./public"))
+app.use("/uploads", express.static('uploads'))
 
 // register
 app.use('/helix/register',require('./sign/employer'))

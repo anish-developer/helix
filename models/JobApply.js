@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const JobApplySchema = new mongoose.Schema({
-    comemail:{
+    jobid:{
         type:String,
         required:true
     },
@@ -17,6 +17,10 @@ const JobApplySchema = new mongoose.Schema({
         type:String
     },
     resume:{
+        type:String,
+        required:true
+    },
+    status:{
         type:String
     }
 })
