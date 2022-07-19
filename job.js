@@ -2,20 +2,27 @@ const express = require('express')
 const router = express.Router()
 const multer  = require('multer')
 const AddJob = require('./models/AddJob')
+const path = require('path')
+// const JobApply = require('./models/JobApply')
 const ApplyJob = require('./models/JobApply')
 
-// const upload = multer()
-const Storage = multer.diskStorage({
-    destination:'./uploads/',
-    filename:(req,file,cb)=>{
-        cb(null,Date.now() + file.originalname)
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "uploads");
+    },
+    filename: (req, file, cb) => {
+      cb(null,new Date().getTime() + file.originalname);
+    },
+  });
+  // Multer Filter
+  const multerFilter = (req, file, cb) => {
+    if (file.mimetype.split("/")[1] === "pdf") {
+      cb(null, true);
+    } else {
+      cb(new Error("Not a PDF File!!"), false);
     }
-})
-
-
-const upload = multer({
-    storage:Storage
-})
+  };
+  const upload = multer({ storage: storage,fileFilter: multerFilter});
 // add job
 router.post('/addjob',upload.none(),async (req,res)=>{
     const companyname = req.body.companyname
@@ -211,12 +218,9 @@ router.get('/show/approve',upload.none(),async(req,res)=>{
 
 // apply for job
 router.post('/applyjob',upload.single('resume'),async (req,res)=>{
-    // const name = req.body.name
-    // const email = req.body.email
-    // const message = req.body.message
-    // const resume = req.file
     try {
-        if(req.body.name){
+        const name = req.body.name
+        if(name){
             const newApplyJob = await new ApplyJob({
                 jobid:req.body._id,
                 name : req.body.name,
@@ -229,10 +233,10 @@ router.post('/applyjob',upload.single('resume'),async (req,res)=>{
             res.status(201).json('job apply successfully')
         }
         else{
-            res.status(401).json('something wrong')
+            res.status(401).json('plz upload pdf file')
         }
     } catch (error) {
-        res.status(401).json('something wrong')
+        res.status(401).json(error,'something wrong')
     }
 })
 
@@ -256,7 +260,6 @@ router.get('/find/appliers/:_id',upload.none(),async(req,res)=>{
                 _id:id
             })
             res.status(201).json(data)
-           
         }else{
             res.status(401).json('invalid id')
         }
@@ -316,6 +319,24 @@ router.patch('/search/job',upload.none(),async (req,res)=>{
         // if(location)
     } catch (error) {
         res.status(401).json('something wrong')
+    }
+})
+
+// get resume 
+router.get('/resume/:_id',upload.none(),async (req,res)=>{
+    const id = req.params._id
+    try {
+        if(id){
+            const data = await ApplyJob.findOne({
+                _id:id
+            })
+            console.log(data.resume)
+            res.sendFile(`/${data.resume}`,{root:path.join(__dirname,'./uploads')})
+        }else{
+            res.json('something wrong')
+        }
+    } catch (error) {
+        res.json(error,'this is error')
     }
 })
 
