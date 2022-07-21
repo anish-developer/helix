@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
 const AddJobScheme = new mongoose.Schema({
+    c_type:{
+        type:String,
+        required:true
+    },
     companyname:{
         type:String,
         required:true
@@ -33,10 +37,6 @@ const AddJobScheme = new mongoose.Schema({
         required:true
     },
     exp:{
-        type:String,
-        required:true
-    },
-    location:{
         type:String,
         required:true
     },

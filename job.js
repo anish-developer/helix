@@ -36,6 +36,7 @@ router.post('/addjob',upload.none(),async (req,res)=>{
     const location = req.body.location
     const jobTime = req.body.jobtime
     const jobAddress = req.body.jobaddress
+    const c_type = req.body.c_type
     const date = new Date().toString()
     const updateDate = date.slice(8,16)
     // console.log(updateDate)
@@ -44,6 +45,7 @@ router.post('/addjob',upload.none(),async (req,res)=>{
     try {
         
            const newAddJob = new AddJob({
+            c_type:c_type,
             companyname:companyname,
             empemail: empEmail,
             jobtitle:jobTitle,
@@ -58,7 +60,8 @@ router.post('/addjob',upload.none(),async (req,res)=>{
             date:updateDate
            })
         //    save in db
-           const addNewJob = newAddJob.save()
+           const addNewJob = await newAddJob.save()
+           console.log(addNewJob)
            res.status(201).json('job is saved && and waiting for admin approve')
     
         
@@ -70,6 +73,7 @@ router.post('/addjob',upload.none(),async (req,res)=>{
 // edit job by employers
 router.patch('/editjob/:_id',upload.none(),async (req,res)=>{
     const id = req.params._id
+    const c_type = req.body.c_type
     const companyname = req.body.companyname
     const empEmail = req.body.email
     const jobTitle = req.body.jobtitle
@@ -91,6 +95,7 @@ router.patch('/editjob/:_id',upload.none(),async (req,res)=>{
             {
             $set:{companyname:companyname,
             empemail: empEmail,
+            c_type:c_type,
             jobtitle:jobTitle,
             jobdesc:jobDesc,
             numofopen:numOfOpen,
@@ -191,7 +196,7 @@ router.patch('/reject/job/:_id?',upload.none(),async (req,res)=>{
                     $set:{approve:'reject'}
                 }
             )
-            console.log(jobs)
+            // console.log(jobs)
             res.status(201).json('reject')
         }else{
             res.status(400).json('invalid id')
@@ -202,7 +207,6 @@ router.patch('/reject/job/:_id?',upload.none(),async (req,res)=>{
 })
 
 // show approved job
-
 router.get('/show/approve',upload.none(),async(req,res)=>{
     try {
         const jobs = await AddJob.find({
@@ -336,9 +340,37 @@ router.get('/resume/:_id',upload.none(),async (req,res)=>{
             res.json('something wrong')
         }
     } catch (error) {
-        res.json(error,'this is error')
+        res.status(401).json(error,'this is error')
     }
 })
 
+// filter with job or company name and country or company type
+router.patch('/filter/jobs',upload.none(),async (req,res)=>{
+    const jobtitle = req.body.jobtitle
+        const companyName = req.body.companyname
+        const location = req.body.location
+        const c_type = req.body.c_type
+        const exp = req.body.exp
+        const jobtime = req.body.jobtime
+    try {
+        if(jobtitle && location && c_type){
+            const data = await AddJob.find({
+                $or:[{jobtitle:jobtitle},{companyname:jobtitle}],location:location,c_type:c_type
+        })
+            console.log(data)
+            res.status(201).json(data)
+        }
+        
+        else if(!jobtitle && !location && !c_type){
+            const jobs = await AddJob.find({
+                approve:'approve'
+            })
+            console.log(jobs)
+            res.status(201).json(jobs)
+        }
+    } catch (error) {
+        res.status(401).send(error,'this is error')
+    }
+})
 
 module.exports = router

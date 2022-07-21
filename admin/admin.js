@@ -6,6 +6,7 @@ const Employer = require('../models/Employer')
 const JobSeeker = require('../models/JobSeeker')
 const Location = require('../models/Location')
 const AddType = require('../models/AddType')
+const Faq = require('../models/Faq')
 
 // middleware
 const upload = multer()
@@ -276,6 +277,39 @@ router.get('/companytype/show',upload.none(),async (req,res)=>{
         res.status(201).json(data)
     } catch (error) {
         res.status(400).json('something wrong')
+    }
+})
+
+// Faq add 
+router.post('/add/faq',upload.none(),async(req,res)=>{
+    try {
+        const question = req.body.question
+        const answer = req.body.answer
+    if(!answer && !question){
+        res.status(401).json('plz input all')
+    }
+    else{
+        const newFaq = new Faq({
+            question:question,
+            answer:answer
+        })
+        // save in db
+        const addFaq = await newFaq.save()
+        res.status(201).json('add successfully Faq')
+    }
+       
+    } catch (error) {
+        res.status(400).json('something wrong')
+    }
+})
+
+// get Faq
+router.get('/show/faq',upload.none(),async(req,res)=>{
+    try {
+        const data = await Faq.find()
+        res.status(201).json(data)
+    } catch (error) {
+        res.status(400).json(error,'something wrong')
     }
 })
 

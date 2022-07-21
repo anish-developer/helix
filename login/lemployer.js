@@ -49,13 +49,14 @@ router.post('/lemployer',upload.none(),async(req,res)=>{
 })
 
 // find by email
-router.post('/profile/:email?',upload.none(),async (req,res)=>{
+router.post('/profile/:email',upload.none(),async (req,res)=>{
     try {
         const email = req.params.email
         if(email){
             const findEmail = await Employer.findOne({
-                empemail:email
+                c_email:email
             })
+            console.log(findEmail)
             res.status(201).json(findEmail)
         }else{
             res.status(400).json('invalid email')
