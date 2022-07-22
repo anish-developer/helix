@@ -340,7 +340,7 @@ router.get('/resume/:_id',upload.none(),async (req,res)=>{
             res.json('something wrong')
         }
     } catch (error) {
-        res.status(401).json(error,'this is error')
+        res.status(401).json('this is error')
     }
 })
 
