@@ -307,6 +307,7 @@ router.post('/add/faq',upload.none(),async(req,res)=>{
 router.get('/show/faq',upload.none(),async(req,res)=>{
     try {
         const data = await Faq.find()
+        console.log(data)
         res.status(201).json(data)
     } catch (error) {
         res.status(400).json(error,'something wrong')

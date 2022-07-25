@@ -61,6 +61,8 @@ router.post('/checklogin',upload.none(),async(req,res)=>{
             console.log(admin)
             if(admin.a_password === password){
                 res.json('admin')
+            }else{
+                res.json('invalid login details')
             }
         }
         else{
