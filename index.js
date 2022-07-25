@@ -19,11 +19,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(cors())
 app.use("/uploads", express.static('uploads'))
 
-app.use(express.static(path.join(__dirname, 'helix')));
 
-app.get('/*', function(req,res) {
-		res.sendFile(path.join(__dirname, 'helix', 'index.html'));
-});
 
 // register
 app.use('/helix/register',require('./sign/employer'))

@@ -4,6 +4,7 @@ const JobSeeker = require('../models/JobSeeker')
 const Employer = require('../models/Employer')
 const multer  = require('multer')
 const bcrypt  = require('bcrypt')
+const Admin = require('../models/Admin')
 
 const upload = multer()
 
@@ -14,7 +15,8 @@ router.post('/checklogin',upload.none(),async(req,res)=>{
         const email = req.body.email
         const password = req.body.password
         const job = await JobSeeker.findOne({j_email:email})
-        let emp = await Employer.findOne({c_email:email})
+        const emp = await Employer.findOne({c_email:email})
+        const admin = await Admin.findOne({a_email:email})
 
         if(job){
             console.log(job)
@@ -24,7 +26,7 @@ router.post('/checklogin',upload.none(),async(req,res)=>{
                 // console.log('hii')
                 // check admin is give approved or not
                 if(job.approve === 'approve'){
-                    res.json(true)
+                    res.json('jobseeker')
                 }
                 else if(job.approve === 'reject'){
                     res.json('admin in not approved')
@@ -37,19 +39,28 @@ router.post('/checklogin',upload.none(),async(req,res)=>{
             }
         }
         else if(emp){
+            console.log(emp)
             const validPassword = await bcrypt.compare(password,emp.c_password)
             // console.log(password)
             if(validPassword === true){
                 // console.log('hii')
                 // check admin is give approved or not
                 if(emp.approve === 'approve'){
-                    res.json(true)
+                    res.json('employer')
                 }
                 else if(job.approve === 'reject'){
                     res.json('admin in not approved')
                 }
-            }else{
+            }
+           
+            else{
                 res.json('wait for admin approval')
+            }
+        }
+        else if(admin){
+            console.log(admin)
+            if(admin.a_password === password){
+                res.json('admin')
             }
         }
         else{
