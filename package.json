@@ -8,6 +8,7 @@
   },
   "keywords": [],
   "author": "",
+  "engines": { "node": "16.x" },
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
